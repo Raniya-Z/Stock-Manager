@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:stock_manager/Frontend/main.dart';
 import 'package:stock_manager/Frontend/se_connecter.dart';
+import 'package:stock_manager/Frontend/main.dart';
 
+import 'Acceuil.dart'; // Pour retour logo si besoin
 
 class PageInscription extends StatefulWidget {
   const PageInscription({super.key});
@@ -21,9 +22,9 @@ class _PageInscriptionState extends State<PageInscription> {
   bool cacherMotDePasse = true;
   bool cacherConfirmation = true;
 
-  final Color fond = Color(0xFFFAFAFA);
-  final Color bleu = Color(0xFF0A1F56);
-  final Color rose = Color(0xFFE61580);
+  final Color texteNoir = Colors.black;
+  final Color fond = const Color(0xFFFAFAFA);
+  final Color bleu = const Color(0xFF0A1F56);
   final Color gris = Colors.grey.shade600;
 
   @override
@@ -36,16 +37,18 @@ class _PageInscriptionState extends State<PageInscription> {
           children: [
             Center(
               child: Image.asset(
-                'assets/logo2.png',
-                height: 200,
+                'assets/logo_bluecarre.png',
+                width: 250,
+                height: 250,
+                fit: BoxFit.contain,
               ),
             ),
-            const SizedBox(height: 10),
+            //const SizedBox(height: 10),
             Form(
               key: _formKey,
               child: Column(
                 children: [
-                  // Nom
+                  // Nom complet
                   _champTexte(
                     label: "Nom complet",
                     prefixIcon: Icons.person,
@@ -98,7 +101,7 @@ class _PageInscriptionState extends State<PageInscription> {
                   ),
                   const SizedBox(height: 25),
 
-                  // Bouton
+                  // Bouton S’inscrire
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
@@ -114,6 +117,7 @@ class _PageInscriptionState extends State<PageInscription> {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('Bienvenue $nomComplet !')),
                           );
+                          // TODO: Redirection après inscription
                         }
                       },
                       child: const Text(
@@ -122,51 +126,95 @@ class _PageInscriptionState extends State<PageInscription> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 25),
+
+                  const SizedBox(height: 30),
 
                   // OU
                   Row(
-                    children: [
-                      Expanded(child: Divider(color: rose)),
-                      const Padding(
+                    children: const [
+                      Expanded(child: Divider(color: Color(0xFF0A1F56))),
+                      Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8),
                         child: Text("ou", style: TextStyle(color: Colors.black)),
                       ),
-                      Expanded(child: Divider(color: rose)),
+                      Expanded(child: Divider(color: Color(0xFF0A1F56))),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 16),
 
                   // Google
-                  OutlinedButton.icon(
-                    icon: Image.asset('assets/google.jpeg', height: 20),
-                    label: const Text("Continuer avec Google", style: TextStyle(color: Colors.black)),
-                    onPressed: () {},
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton.icon(
+                      icon: Image.asset('assets/google.jpeg', height: 20),
+                      label:  Text('Continuer avec Google', style: TextStyle(color: texteNoir)),
+                      onPressed: () {},
+                    ),
                   ),
                   const SizedBox(height: 10),
 
                   // Facebook
-                  OutlinedButton.icon(
-                    icon: Image.asset('assets/facebook.jpeg', height: 20),
-                    label: const Text("Continuer avec Facebook", style: TextStyle(color: Colors.black)),
-                    onPressed: () {},
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton.icon(
+                      icon: Image.asset('assets/facebook.jpeg', height: 20),
+                      label:  Text('Continuer avec Facebook', style: TextStyle(color: texteNoir)),
+                      onPressed: () {},
+                    ),
                   ),
-                  const SizedBox(height: 20),
 
-                  // Lien vers login
+                  const SizedBox(height: 24),
+
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Déjà inscrit ? ', style: TextStyle(color: gris)),
+                      Text('Vous avez déja un compte ? ', style: TextStyle(color: gris)),
                       GestureDetector(
                         onTap: () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const SeConnecter(nomComplet: ''),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          ' Se Connecter',
+                          style: TextStyle(color: bleu, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 30),
+
+                  // Navigation flèches
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.arrow_back_ios),
+                        color: bleu,
+                        iconSize: 30,
+                        onPressed: () {
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(builder: (_) => const SeConnecter(nomComplet: '')),
                           );
                         },
-                        child: Text('Connexion',
-                            style: TextStyle(color: rose, fontWeight: FontWeight.bold)),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.arrow_forward_ios),
+                        color: bleu,
+                        iconSize: 30,
+                        onPressed: () {
+                          // TODO: Changer cette ligne vers ta page Home
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (_) => const AccueilPage()),
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -187,13 +235,17 @@ class _PageInscriptionState extends State<PageInscription> {
     bool cacher = false,
     Widget? suffix,
   }) {
+    const Color bleu = Color(0xFF0A1F56);
+    final Color gris = Colors.grey.shade600;
+
     return TextFormField(
       obscureText: cacher,
       keyboardType: clavier,
       onChanged: onChanged,
-      cursorColor: gris,
+      cursorColor: bleu,  // Curseur bleu
       decoration: InputDecoration(
         labelText: label,
+        floatingLabelStyle: TextStyle(color: bleu),  // Label flottant bleu quand focus
         prefixIcon: Icon(prefixIcon, color: gris),
         suffixIcon: suffix,
         filled: true,
@@ -209,7 +261,15 @@ class _PageInscriptionState extends State<PageInscription> {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: gris),
+          borderSide: BorderSide(color: bleu, width: 2),  // Bordure bleue au focus
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(color: Colors.red),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(color: Colors.red, width: 2),
         ),
       ),
     );

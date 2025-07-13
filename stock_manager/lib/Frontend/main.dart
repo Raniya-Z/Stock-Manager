@@ -9,24 +9,21 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  static const MaterialColor bleuPerso = MaterialColor(
-    0xFF0A1F56,
-    <int, Color>{
-
-      500: Color(0xFF0A1F56), // ta couleur principale
-
-    },
-  );
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0xFFFAFAFA), // fond clair
+        scaffoldBackgroundColor: const Color(0xFFFAFAFA), // Fond clair
         brightness: Brightness.light,
         fontFamily: 'Roboto',
-        primarySwatch: bleuPerso,
+        primaryColor: const Color(0xFF0A1F56), // 🌌 Couleur principale unique
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFF0A1F56),
+            foregroundColor: Colors.white,
+          ),
+        ),
       ),
       home: const FirstPage(),
     );
@@ -44,10 +41,13 @@ class _FirstPageState extends State<FirstPage> {
   @override
   void initState() {
     super.initState();
+    // ⏱️ Attente de 3 secondes
     Timer(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const SeConnecter(nomComplet: 'Nom Complet')),
+        MaterialPageRoute(
+          builder: (context) => const SeConnecter(nomComplet: 'Nom Complet'),
+        ),
       );
     });
   }
@@ -58,9 +58,9 @@ class _FirstPageState extends State<FirstPage> {
       backgroundColor: const Color(0xFF0A1F56),
       body: Center(
         child: Image.asset(
-          'assets/logo1_white.png',
-          width: 300,
-          height: 300,
+          'assets/logo_1page.png',
+          width: 350,
+          height: 350,
         ),
       ),
     );
