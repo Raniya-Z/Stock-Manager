@@ -13,6 +13,10 @@ import 'entrees_stock.dart';
 import 'produits_categories.dart'; // assure-toi que le chemin est correct
 import 'ajouter_produits.dart';
 
+
+
+
+
 class AccueilPage extends StatefulWidget {
   const AccueilPage({super.key});
 
@@ -146,85 +150,81 @@ class _AccueilPageState extends State<AccueilPage> {
 
       drawer: Drawer(
         backgroundColor: bleu,
-        child: ListView(
-        padding: EdgeInsets.zero, // important pour ne pas ajouter de padding inutile
-
+        child: Column(
           children: [
-            Center(
-              child: Image.asset(
-                'assets/logo_1page.png',
-                height: 200,
-              ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  border: Border.all(color: Colors.white54, width: 1.5),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    GestureDetector(
-                      onTap: _pickImage,
-                      child: Stack(
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: [
+                  Center(
+                    child: Image.asset(
+                      'assets/logo_1page.png',
+                      height: 200,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        border: Border.all(color: Colors.white54, width: 1.5),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
                         children: [
-                          Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: Colors.white24,
-                              borderRadius: BorderRadius.circular(8),
-                              image: _imageFile != null
-                                  ? DecorationImage(
-                                image: FileImage(_imageFile!),
-                                fit: BoxFit.cover,
-                              )
-                                  : null,
+                          GestureDetector(
+                            onTap: _pickImage,
+                            child: Stack(
+                              children: [
+                                Container(
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white24,
+                                    borderRadius: BorderRadius.circular(8),
+                                    image: _imageFile != null
+                                        ? DecorationImage(
+                                      image: FileImage(_imageFile!),
+                                      fit: BoxFit.cover,
+                                    )
+                                        : null,
+                                  ),
+                                  child: _imageFile == null
+                                      ? const Icon(Icons.person_pin, size: 30, color: Colors.white)
+                                      : null,
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  right: 0,
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.white,
+                                    ),
+                                    padding: const EdgeInsets.all(4),
+                                    child: const Icon(Icons.edit, size: 6, color: Colors.black),
+                                  ),
+                                ),
+                              ],
                             ),
-                            child: _imageFile == null
-                                ? const Icon(Icons.person_pin, size: 30, color: Colors.white)
-                                : null,
                           ),
-                          Positioned(
-                            bottom: 0,
-                            right: 0,
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.white,
-                              ),
-                              padding: const EdgeInsets.all(4),
-                              child: const Icon(Icons.edit, size: 6, color: Colors.black),
-                            ),
+                          const SizedBox(width: 12),
+                          const Text(
+                            'Nom Admin',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(width: 12),
-                    const Text(
-                      'Nom Admin',
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
-                  ],
-                ),
-
+                  ),
+                  const SizedBox(height: 30),
+                  _buildPersonalInfoDropdown(),
+                  _buildDarkModeDropdown(),
+                  _buildDrawerItem(Icons.logout, 'Se déconnecter', () => _confirmLogout()),
+                ],
               ),
             ),
-
-            const SizedBox(height: 30),
-            _buildPersonalInfoDropdown(),
-
-            //   _buildDrawerItem(Icons.person, 'Informations personnelles',(){}),
-        //    _buildDrawerItem(Icons.dark_mode, 'Mode sombre',(){}),
-            _buildDarkModeDropdown(),
-
-            _buildDrawerItem(Icons.logout, 'Se déconnecter',() => _confirmLogout()),
-            const Spacer(),
             Padding(
               padding: const EdgeInsets.all(16),
               child: Center(
@@ -238,6 +238,7 @@ class _AccueilPageState extends State<AccueilPage> {
           ],
         ),
       ),
+
 
       appBar: AppBar(
         backgroundColor: bleu,

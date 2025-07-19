@@ -1,6 +1,14 @@
+
+
+
+
+
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:stock_manager/Frontend/se_connecter.dart';
+
+import 'theme_provider.dart'; // 👈 importe ton provider
+import 'Acceuil.dart';
 
 void main() {
   runApp(const MyApp());
